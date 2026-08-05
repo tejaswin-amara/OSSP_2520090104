@@ -1,8 +1,11 @@
-# Memory Management
+# Module 04: Memory Management
 
-## Overview
-Virtual Memory, Page Tables, `malloc` internals, and `valgrind`.
+## Lab & Skill Tasks
+- [ ] practical_weekN.docx
+- [ ] skill_weekN.docx
 
-## Lab Tasks
-- [ ] Task 1
-- [ ] Task 2
+## Execution Outputs
+### Task Outputs
+- **Console Logs:** [Pending Lab Completion]
+- **System Traces:** [Pending Lab Completion]
+- **Verification Status:** Pending

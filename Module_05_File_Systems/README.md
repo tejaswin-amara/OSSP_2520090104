@@ -1,8 +1,11 @@
-# File Systems
+# Module 05: File Systems
 
-## Overview
-Everything is a file: Inodes, VFS, and file descriptors.
+## Lab & Skill Tasks
+- [ ] practical_weekN.docx
+- [ ] skill_weekN.docx
 
-## Lab Tasks
-- [ ] Task 1
-- [ ] Task 2
+## Execution Outputs
+### Task Outputs
+- **Console Logs:** [Pending Lab Completion]
+- **System Traces:** [Pending Lab Completion]
+- **Verification Status:** Pending
