@@ -1,10 +1,7 @@
 # Module 03: Inter-Process Communication
 
-## Lab & Skill Tasks
-- [x] skill_week3.docx
+## Lab & Skill Tasks (Markdown)
+- [x] [skill_week3.md](./skill_week3.md)
 
 ## Execution Outputs
-### Task Outputs
-- **Console Logs:** [Attached in Doc]
-- **System Traces:** [Attached in Doc]
-- **Verification Status:** Pass
+- **Status:** Integrated in Markdown files
