@@ -1,8 +1,11 @@
-# Processes and Process Control
+# Module 2: Processes and Process Control
 
 ## Overview
 Covers fork(), exec(), wait(), and the process lifecycle.
 
-## Lab Tasks
-- [x] SKILL_Week_2.docx
-- [x] Practical_Week2.docx
+## Practical & Skill Exercises
+- [x] practical_week2.docx
+- [x] skill_week2.docx
+
+## Execution Outputs
+*Documentation of outputs and logs for Week 2 tasks are included within the documents above.*
