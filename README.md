@@ -41,3 +41,9 @@ Operating Systems and Systems Programming teaches what every senior software eng
 
 ## 🤖 AI Grounding
 This repository includes a `.config/ai_rules` directory. It contains instructions for LLMs/AI agents to maintain the folder structure, naming conventions, and course philosophy during future updates.
+
+---
+**Student Information:**
+- **Name:** Tejaswin Amara
+- **Roll No:** 2520090104
+- **Section:** 10

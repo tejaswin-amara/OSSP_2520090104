@@ -1,7 +1,16 @@
 # Module 03: Inter-Process Communication
 
-## Lab & Skill Tasks (Original Documents)
-- [x] [SKILL_Week_3.docx](./SKILL_Week_3.docx)
+---
+**Student Information:**
+- **Name:** Tejaswin Amara
+- **Roll No:** 2520090104
+- **Section:** 10
+
 
 ## Execution Outputs
-- **Status:** Documentation provided in binary files.
+
+### Visual Evidence (Screenshots)
+![Screenshot 2026-08-04 122353.png](../Screenshot 2026-08-04 122353.png)
+![Screenshot 2026-08-04 122449.png](../Screenshot 2026-08-04 122449.png)
+![Screenshot 2026-08-04 122520.png](../Screenshot 2026-08-04 122520.png)
+
