@@ -29,20 +29,7 @@ Operating Systems and Systems Programming teaches what every senior software eng
 2. **Operating Systems: Three Easy Pieces** - Arpaci-Dusseau
 3. **The Linux Programming Interface** - Michael Kerrisk
 
-## ⚡ Quick Navigation
-- [Module 01: Service Layer](./Module_01_OS_Service_Layer)
-- [Module 02: Process Control](./Module_02_Process_Control)
-- [Module 03: IPC](./Module_03_IPC)
-- [Module 04: Memory Management](./Module_04_Memory_Management)
-- [Module 05: File Systems](./Module_05_File_Systems)
-- [Module 06: Concurrency](./Module_06_Concurrency)
 
----
-
-## 🤖 AI Grounding
-This repository includes a `.config/ai_rules` directory. It contains instructions for LLMs/AI agents to maintain the folder structure, naming conventions, and course philosophy during future updates.
-
----
 **Student Information:**
 - **Name:** Tejaswin Amara
 - **Roll No:** 2520090104
