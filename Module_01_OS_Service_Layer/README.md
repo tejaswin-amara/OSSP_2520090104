@@ -1,8 +1,7 @@
-# The OS as a Service Layer
+# Module 01: Service Layer
 
-## Overview
-Covers Kernel/User-space split, syscalls, and `strace`.
+## Lab & Skill Tasks (Original Documents)
+- [x] [OSSP.docx](./OSSP.docx)
 
-## Lab Tasks
-- [ ] Task 1
-- [ ] Task 2
+## Execution Outputs
+- **Status:** Documentation provided in binary files.
