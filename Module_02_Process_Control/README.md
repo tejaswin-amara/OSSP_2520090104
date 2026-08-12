@@ -9,7 +9,13 @@
 
 ## Task Organization
 
-The practical work is separated by task so that source code, documentation, and screenshot evidence are kept with the task they belong to.
+The practical work is separated by task so that source code, documentation, and screenshot evidence are kept with the task they belong to. Supporting reports and module-level documents remain directly under this module directory.
+
+### Combined Task Entry Point
+
+- [Task 1 + Task 2 Combined Entry](./Task_01_Interactive_Shell_and_Task_02_File_Copy.md)
+
+This link is provided as the stable entry point for the combined Task 1 and Task 2 document while the detailed implementation remains organized by task.
 
 ### Task 1 – Interactive Shell
 
