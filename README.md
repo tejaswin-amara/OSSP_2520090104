@@ -1,36 +1,26 @@
-# OSSP · Operating Systems And Systems Programming
+# OSSP 2520090104
 
-![PBL](https://img.shields.io/badge/Track-PBL-orange?style=for-the-badge) ![Credits](https://img.shields.io/badge/Credits-4-blue?style=for-the-badge) ![Trimester](https://img.shields.io/badge/Trimester-T04-green?style=for-the-badge)
+Operating Systems and System Programming (OSSP) coursework repository.
 
-## 25CS2104E · PCC
-**Outside-in · Project-driven**
+## Repository Structure
 
-### 📘 Course Objective & Rationale
-Operating Systems and Systems Programming teaches what every senior software engineer is expected to know — what really happens between a program and the hardware. The PBL track is **OUTSIDE-IN**: students see a working Unix-style shell on day one and across twelve weeks they understand every syscall the shell makes.
+Each module is organized consistently into two sections:
 
-### 🚀 Anchor Project: Shellforge
-**Shellforge** is a Unix-style shell implemented from scratch in C. 
-- **Functional Features:** Pipes, I/O redirection, Background jobs, Signal handling (Ctrl-C, Ctrl-Z).
-- **Tool Stack:** gcc, make, gdb, valgrind, strace.
+- `Practical/` — laboratory programs, implementations, task documentation, and practical submissions.
+- `Skills/` — skill activities, reports, learning documentation, and supporting submissions.
 
-## 📂 Course Modules
+## Modules
 
-| Module | Title | Mapping |
-|---|---|---|
-| [M1](./Module_01_OS_Service_Layer) | The OS as a Service Layer | CO1 - Analyze |
-| [M2](./Module_02_Process_Control) | Processes and Process Control | CO2 - Apply |
-| [M3](./Module_03_IPC) | Inter-Process Communication | CO3 - Apply |
-| [M4](./Module_04_Memory_Management) | Memory Management | CO4 - Analyze |
-| [M5](./Module_05_File_Systems) | File Systems | CO5 - Analyze |
-| [M6](./Module_06_Concurrency) | Concurrency Primitives | CO6 - Apply |
+1. [OS Service Layer](./Module_01_OS_Service_Layer/)
+2. [Process Control](./Module_02_Process_Control/)
+3. [Inter-Process Communication](./Module_03_IPC/)
+4. [Memory Management](./Module_04_Memory_Management/)
+5. [File Systems](./Module_05_File_Systems/)
+6. [Concurrency](./Module_06_Concurrency/)
 
-## 📖 Reference Books
-1. **Operating System Concepts** - Silberschatz et al.
-2. **Operating Systems: Three Easy Pieces** - Arpaci-Dusseau
-3. **The Linux Programming Interface** - Michael Kerrisk
+## Conventions
 
-
-**Student Information:**
-- **Name:** Tejaswin Amara
-- **Roll No:** 2520090104
-- **Section:** 10
+- Keep practical implementations inside `Practical/`.
+- Keep skill activities and reports inside `Skills/`.
+- Use task-specific subfolders when a module contains multiple practicals.
+- Store screenshots next to the practical they document.
