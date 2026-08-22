@@ -1,15 +1,10 @@
-# Module 01: Service Layer
+# Module 01 — OS Service Layer
 
----
-**Student Information:**
-- **Name:** Tejaswin Amara
-- **Roll No:** 2520090104
-- **Section:** 10
+All OSSP coursework is currently organized under this module as requested. Files are classified by their actual content rather than their original filenames or module labels.
 
+## Structure
 
-## Execution Outputs
+- `Practical/` — practical/lab work, experiments, execution evidence, and implementation-oriented material.
+- `skills/` — skill-oriented work, supporting exercises, and skill documentation.
 
-### Visual Evidence (Screenshots)
-![Screenshot 2026-08-04 120708.png](../Screenshot 2026-08-04 120708.png)
-![Screenshot 2026-08-04 120814.png](../Screenshot 2026-08-04 120814.png)
-
+Current practical material includes process creation, process control, process-state experiments, and operating-system service observations. The uploaded Week 2 and Week 3 practical reports are both practical work because their contents describe Linux process experiments and execution evidence. 
