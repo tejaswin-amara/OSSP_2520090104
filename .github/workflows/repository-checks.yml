@@ -1,0 +1,79 @@
+name: Repository Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    name: Validate repository structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required files and directories
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            "README.md"
+            "CONTRIBUTING.md"
+            ".gitignore"
+            ".gitattributes"
+            ".editorconfig"
+            "Project/README.md"
+            "Project/src/README.md"
+            "Project/docs/README.md"
+            "Project/data/README.md"
+            "Project/results/README.md"
+            "Project/reports/README.md"
+          )
+
+          required_dirs=(
+            "Project/src"
+            "Project/docs"
+            "Project/data"
+            "Project/results"
+            "Project/reports"
+          )
+
+          for path in "${required_files[@]}"; do
+            test -f "$path" || { echo "Missing required file: $path"; exit 1; }
+          done
+
+          for path in "${required_dirs[@]}"; do
+            test -d "$path" || { echo "Missing required directory: $path"; exit 1; }
+          done
+
+      - name: Reject temporary placeholder files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find . -type f \( -name 'temp' -o -name '*.tmp' -o -name '*.temp' \) \
+            -not -path './.git/*' | grep -q .; then
+            echo "Temporary files detected. Remove them before merging."
+            exit 1
+          fi
+
+      - name: Verify project documentation links
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q '01-project-charter.md' Project/docs/README.md
+          grep -q '12-final-report-outline.md' Project/docs/README.md
+          grep -q 'Team 12' Project/README.md
+          grep -q 'Manthena Raghupathi' README.md
+
+      - name: Repository summary
+        shell: bash
+        run: |
+          echo "Repository structure validated successfully."
+          echo "Project: Linux Dynamic Memory Allocation and Memory Monitoring System"
+          echo "Team: 12"
