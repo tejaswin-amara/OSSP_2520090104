@@ -9,13 +9,16 @@
 | Field | Details |
 |---|---|
 | Course | **OPERATING SYSTEMS AND SYSTEMS PROGRAMMING (25CS2104E)** |
+| Course Format | **PBL25CS2104E · PCC · CAPS** |
+| Credits | **4** |
+| Contact Hours | **8/week** |
 | Academic Term | **2026–27, Term-I** |
+| Trimester | **T04** |
 | Document | Project Problem Statement Submission Form |
-| Section No. | 10 |
+| Section No. | **10** |
 | Team No. | To be recorded |
 | Project Title | **Linux Dynamic Memory Allocation and Memory Monitoring System** |
 | Supervisor / Faculty | To be recorded |
-| Repository | `OSSP_2520090104` |
 
 ## Team Members
 
@@ -25,136 +28,217 @@
 | 2520090104 | Tejaswin Amara | [@tejaswin-amara](https://github.com/tejaswin-amara) |
 | 2520090140 | U. Vinay Sampath | To be recorded |
 
-> Each team member must contribute from their own GitHub account. Individual contribution is verified through the repository's commit history.
+> Every team member must commit using their own GitHub account. Individual contribution is verified through Git history.
+
+---
+
+# Official Course Detail
+
+## Course Objective & Rationale
+
+Operating Systems and Systems Programming teaches what happens between a program and the hardware. The PBL track follows an **outside-in, project-driven** approach: students begin with a working Unix-style shell and progressively understand the system calls and kernel mechanisms behind process creation, execution, pipes, waiting, signals, memory, files, and concurrency.
+
+The standard Unix/Linux toolchain is **gcc, make, gdb, valgrind, and strace**. The course builds upon **DDCA** (CPU and memory model), **DSA-1** (linked lists, queues, and hash tables), and **PSPJ**. It enables **ESDT — Embedded Software Development**, **CDIS — Cloud Infrastructure**, **SDSR — System Design for Scalability**, and **CICD**.
+
+**Self-Learning Material:** [25CS2104E SLM](https://y25btech.klef.in/slm/25CS2104E.html)
+
+## Course Outcomes
+
+| CO | BTL | Course Outcome |
+|---|---|---|
+| **CO1** | BTL4 — Analyze | Analyze the OS as a layered service abstraction, including kernel/user mode, syscall interface, shell behavior, and command execution. |
+| **CO2** | BTL3 — Apply | Apply `fork`, `exec`, `wait`, and `exit` to create, control, and correctly reap child processes. |
+| **CO3** | BTL3 — Apply | Apply pipes, FIFOs, Unix domain sockets, signals, shared memory, and semaphores for IPC. |
+| **CO4** | BTL4 — Analyze | Analyze virtual memory, paging, address translation, TLBs, page faults, demand paging, and copy-on-write. |
+| **CO5** | BTL4 — Analyze | Analyze file-system abstractions, VFS, inodes, directory entries, file descriptors, and file-I/O syscalls. |
+| **CO6** | BTL3 — Apply | Apply POSIX threads, mutexes, condition variables, and semaphores while reasoning about races, deadlocks, and starvation. |
+
+## Module-Wise Syllabus
+
+### M1 — The OS as a Service Layer
+
+**Maps to CO1.** Working Unix shell; kernel/user-space split; privileged and unprivileged execution; syscalls; `strace`; Linux kernel architecture; glibc wrappers; `man 2`/`man 3`; `errno`; return-value checking; C systems programming.
+
+### M2 — Processes and Process Control
+
+**Maps to CO2.** Process abstraction and PCB; lifecycle; `fork()`; `exec()`; `wait()`/`waitpid()`; `SIGCHLD`; `exit()`/`_exit()`; conceptual Linux scheduling; zombies; fork bombs; inherited file descriptors.
+
+### M3 — Inter-Process Communication
+
+**Maps to CO3.** Anonymous pipes; `pipe()`; `dup2()`; FIFOs via `mkfifo()`; signals; `sigaction()`; process groups and sessions; Unix domain sockets; shared memory; POSIX/System V semaphores; choosing IPC mechanisms by problem profile.
+
+### M4 — Memory Management
+
+**Maps to CO4.** Virtual-memory illusion; page tables; virtual-to-physical translation; TLB; minor/major page faults; demand paging; Linux process address space; `malloc()`/`free()`; `brk()`/`sbrk()`/`mmap()`; segmentation faults; stack overflow; double-free; use-after-free; copy-on-write; Valgrind; AddressSanitizer; `/proc/<pid>/maps`.
+
+### M5 — File Systems
+
+**Maps to CO5.** Unix “everything is a file”; regular files, directories, devices, sockets and FIFOs; inodes; directory entries; hard links; symbolic links; VFS; file descriptors; `open()`; `read()`; `write()`; `lseek()`; `close()`; buffered/unbuffered I/O; `mmap()`; ext4 and journaling concepts.
+
+### M6 — Concurrency Primitives
+
+**Maps to CO6.** Threads vs processes; POSIX threads; `pthread_create()`/`pthread_join()`/`pthread_exit()`; race conditions; mutexes; condition variables; counting semaphores; producer-consumer patterns; deadlock's four conditions; lock ordering; starvation; read-write locks and atomics.
+
+---
+
+# Anchor Project — Shellforge
+
+The official PBL course outline identifies **Shellforge — A Unix-Style Shell from Scratch in C** as the twelve-week anchor project.
+
+### Functional Features
+
+- Interactive prompt and command history.
+- Quoting and escaping.
+- Environment-variable expansion and command substitution.
+- Arbitrary-length pipelines.
+- Input/output/error redirection.
+- Background jobs and job control (`jobs`, `fg`, `bg`).
+- `Ctrl-C` and `Ctrl-Z` signal handling.
+- Built-ins: `cd`, `pwd`, `exit`, `jobs`, `fg`, `bg`, `history`, `export`.
+
+### Core System Calls
+
+`fork()`, `exec()`, `pipe()`, `dup2()`, `waitpid()`, `kill()`, and `sigaction()`.
+
+### Minimal Tool Stack
+
+- GCC 13+ with `-Wall -Wextra -Werror`
+- GNU Make
+- GDB
+- Valgrind
+- strace
+- Git + GitHub
+- Linux laptop/VM; Ubuntu 24.04 LTS recommended
+
+### Twelve-Week Build Flow
+
+| Stage | Focus |
+|---|---|
+| Weeks 1–2 | Shell fundamentals, OS/service-layer concepts, environment setup |
+| Week 3 | Command parsing, quoting, escaping |
+| Weeks 4–5 | `fork()`/`exec()` and simple commands |
+| Weeks 6–7 | Pipes and multi-process pipelines |
+| Weeks 8–9 | I/O redirection |
+| Weeks 10–11 | Signals and job control |
+| Week 12 | Integration, testing, debugging, documentation, polish |
+
+> **Project-specific note:** Shellforge is the official course-level PBL anchor project. The team's submitted project for this repository remains **Linux Dynamic Memory Allocation and Memory Monitoring System**.
+
+---
+
+# Submitted Project
 
 ## Abstract
 
 Dynamic memory management directly affects application performance, reliability, and system stability. This project proposes a **Linux Dynamic Memory Allocation and Memory Monitoring System** consisting of a custom heap allocator and a real-time memory monitoring utility.
 
-The allocator implements the core allocation primitives `malloc`, `calloc`, `realloc`, and `free` from scratch using low-level Linux system calls such as `sbrk()` and `mmap()`. The monitoring component reads process and system-wide memory statistics from the `/proc` filesystem, particularly `/proc/[pid]/status` and `/proc/meminfo`, to report live memory consumption, fragmentation levels, and allocation patterns.
+The allocator implements `malloc`, `calloc`, `realloc`, and `free` from scratch using low-level Linux mechanisms such as `sbrk()` and `mmap()`. The monitoring component reads process and system-wide memory statistics from `/proc/[pid]/status` and `/proc/meminfo` to display live memory consumption, fragmentation levels, and allocation patterns.
 
-The system addresses memory leaks, fragmentation, and inefficient allocation strategies through free-list management and first-fit/best-fit allocation policies. Multi-threaded safety is provided using POSIX mutex locks, while signal handling such as `SIGSEGV` is used to detect abnormal memory-access conditions.
+The system addresses memory leaks, fragmentation, and inefficient allocation through free-list management and first-fit/best-fit policies. POSIX mutex locks provide multi-threaded safety, while signal handling such as `SIGSEGV` supports abnormal memory-access detection.
 
 ## Problem Statement
 
-Modern applications typically rely on default memory allocators without providing sufficient visibility into allocation, fragmentation, or memory reclamation. This makes memory leaks, inefficient allocation strategies, and fragmentation difficult to diagnose.
+Modern applications often rely on default memory allocators without sufficient visibility into allocation, fragmentation, or reclamation. This makes leaks and inefficient allocation strategies difficult to diagnose.
 
-The project addresses this problem by developing a transparent custom memory allocation mechanism together with a real-time monitoring system that exposes allocation, deallocation, memory consumption, and fragmentation statistics for C/C++ applications running on Linux.
+This project develops a transparent custom allocation mechanism combined with a real-time monitoring system exposing allocation, deallocation, memory-consumption, and fragmentation statistics for C/C++ applications on Linux.
 
 ## Objectives
 
-1. Design and implement a custom dynamic memory allocator in C using Linux system calls such as `sbrk()` and `mmap()`, replicating `malloc`, `calloc`, `realloc`, and `free`.
-2. Develop a memory monitoring module that reads real-time statistics from the `/proc` filesystem.
-3. Implement fragmentation-reduction strategies including free-list management and first-fit/best-fit allocation policies.
-4. Visualize memory allocation trends and detect memory leaks through logging and a reporting dashboard.
+1. Implement a custom C dynamic memory allocator using `sbrk()` and `mmap()` with `malloc`, `calloc`, `realloc`, and `free` behavior.
+2. Develop a real-time memory-monitoring module using `/proc` statistics.
+3. Implement free-list management and first-fit/best-fit strategies with fragmentation reduction.
+4. Log and visualize allocation trends and detect memory leaks.
 
 ## Proposed Methodology
 
-The project is developed as two integrated modules on a Linux/Ubuntu platform using C/C++.
+The project consists of two integrated components on Linux/Ubuntu using C/C++.
 
-### 1. Memory Allocator Module
+### Memory Allocator
 
-The allocator manages process memory directly through `sbrk()` and `mmap()`. It maintains an internal free list using linked-list metadata and supports first-fit and best-fit allocation strategies. Free blocks are coalesced where possible to reduce fragmentation.
+The allocator manages process memory through `sbrk()` and `mmap()`, maintains linked-list metadata for a free list, supports first-fit and best-fit strategies, and coalesces free blocks.
 
-Core operations:
+### Memory Monitoring
 
-- `malloc()` — allocate a block of dynamic memory.
-- `calloc()` — allocate and zero-initialize memory.
-- `realloc()` — resize an existing allocation.
-- `free()` — release allocated memory back to the allocator.
-- `sbrk()` / `brk()` — manage the process heap.
-- `mmap()` / `munmap()` — handle memory-mapped allocations, particularly larger blocks.
+A companion utility periodically reads `/proc/[pid]/status` and `/proc/meminfo`, collecting process/system memory statistics, allocation patterns, and fragmentation indicators for logging and visualization.
 
-### 2. Memory Monitoring Module
+### Safety & Concurrency
 
-A companion monitoring utility periodically reads:
+POSIX threads and mutex locks provide thread-safe allocator operations. Signal handling, including `SIGSEGV`, supports abnormal memory-access detection and reporting.
 
-- `/proc/[pid]/status` for process-level memory statistics.
-- `/proc/meminfo` for system-wide memory statistics.
+## OS Concepts / Linux APIs
 
-Collected information is logged for analysis and visualization, including memory consumption, fragmentation indicators, and allocation/deallocation patterns.
-
-### 3. Safety and Concurrency
-
-The system uses POSIX threads and mutex locks to provide thread-safe allocator operations. Signal handling, including `SIGSEGV`, is incorporated for abnormal memory-access detection and reporting.
-
-## Operating Systems Concepts / Linux APIs Used
-
-| OS Concept / Linux API / System Call | Purpose |
+| Concept / API | Purpose |
 |---|---|
-| Dynamic Memory Allocation (`malloc`, `calloc`, `realloc`, `free`) | Custom implementation of standard heap allocation functions |
-| `sbrk()` / `brk()` | Extend or shrink the process heap segment directly |
-| `mmap()` / `munmap()` | Allocate and release memory-mapped regions, especially for large blocks |
-| `/proc` filesystem (`/proc/[pid]/status`, `/proc/meminfo`) | Retrieve real-time process and system memory statistics |
-| POSIX Threads (`pthread`) and mutex locks | Ensure thread-safe allocation in multi-threaded programs |
-| Signal handling (`SIGSEGV`) | Detect and report abnormal/invalid memory access conditions |
+| `malloc`, `calloc`, `realloc`, `free` | Custom dynamic allocation primitives |
+| `sbrk`, `brk` | Process heap management |
+| `mmap`, `munmap` | Memory-mapped allocation/release |
+| `/proc/[pid]/status`, `/proc/meminfo` | Process/system memory statistics |
+| POSIX `pthread` + mutexes | Thread-safe allocation |
+| `SIGSEGV` / signal handling | Abnormal memory-access detection |
 
-## Tools / Platforms / Software Used
+## Tools / Platforms
 
-| Tool / Platform / Software | Purpose |
+| Tool | Purpose |
 |---|---|
-| Linux / Ubuntu | Development and testing environment |
-| C / C++ | Core implementation languages for system-level programming |
-| Valgrind / GDB | Debugging memory leaks and analyzing runtime behavior |
-| gnuplot / Python (`matplotlib`) | Visualizing memory-usage trends collected by the monitor |
-| Bash scripting | Automating build, testing, and monitoring workflows |
+| Linux / Ubuntu | Development and testing |
+| C / C++ | System-level implementation |
+| Valgrind / GDB | Debugging and memory analysis |
+| gnuplot / Python (`matplotlib`) | Visualization |
+| Bash | Build/test/monitoring automation |
 
 ## Expected Outcome
 
-The completed system is expected to provide:
+- Functional custom dynamic memory allocator.
+- Real-time `/proc`-based monitoring utility.
+- Sample test programs.
+- Allocation/deallocation logs.
+- Memory-usage and allocation visualizations.
+- Memory-leak and fragmentation analysis.
+- Thread-safe allocator operations.
 
-- A functional custom dynamic memory allocator that replicates the major standard C allocation operations.
-- A real-time memory monitoring utility based on the Linux `/proc` filesystem.
-- Sample test programs for allocator and monitoring validation.
-- Logging of allocation, deallocation, and memory statistics.
-- Visualization of memory usage and allocation trends.
-- Mechanisms for identifying memory leaks and fragmentation.
-- Thread-safe allocation using POSIX synchronization primitives.
+---
 
-## Repository Structure
+# Repository Structure
 
 ```text
 OSSP_2520090104/
 ├── Project/
-│   ├── src/          # Source code and implementations
-│   ├── docs/         # Technical and project documentation
-│   ├── data/         # Permitted data or documented external data sources
-│   ├── results/      # Experimental outputs, logs and observations
-│   └── reports/      # Phase and final academic reports
+│   ├── src/
+│   ├── docs/
+│   ├── data/
+│   ├── results/
+│   └── reports/
 ├── .gitignore
 └── README.md
 ```
 
-### Directory Responsibilities
+| Directory | Purpose |
+|---|---|
+| `Project/src/` | Allocator, monitor, tests, and supporting source code |
+| `Project/docs/` | Architecture, methodology, API notes, experiments, documentation |
+| `Project/data/` | Permitted data or documented external data sources |
+| `Project/results/` | Logs, measurements, benchmarks, observations, visualizations |
+| `Project/reports/` | Review submissions and final academic reports |
 
-- **`Project/src/`** — allocator, monitoring utility, tests, and supporting source code.
-- **`Project/docs/`** — architecture, methodology, API notes, setup, experiments, and project documentation.
-- **`Project/data/`** — permitted datasets or references to external data sources. Restricted/licensed data must not be committed.
-- **`Project/results/`** — generated logs, measurements, benchmarks, observations, and visualizations.
-- **`Project/reports/`** — review submissions and final report materials.
+# Setup & Execution
 
-## Setup
+## Prerequisites
 
-### Prerequisites
-
-- Linux/Ubuntu environment.
-- GCC/G++ or an equivalent C/C++ compiler.
-- POSIX threads support.
+- Linux/Ubuntu.
+- GCC/G++ with POSIX thread support.
 - Git.
-- Optional: Valgrind, GDB, Python with `matplotlib`, and gnuplot for testing and visualization.
+- Optional: Valgrind, GDB, Python/matplotlib, gnuplot.
 
-### Clone
+## Clone
 
 ```bash
 git clone https://github.com/tejaswin-amara/OSSP_2520090104.git
 cd OSSP_2520090104
 ```
 
-### Build & Run
+Build and execution instructions for each implementation should be maintained in `Project/docs/` and alongside the relevant source. Generated outputs belong in `Project/results/`.
 
-Implementation-specific build and execution commands are maintained in `Project/docs/` and alongside the relevant source components. Generated logs and experiment outputs should be placed in `Project/results/`.
-
-## Individual Contribution
+# Individual Contribution
 
 | Roll Number | Student Name | Individual Responsibility |
 |---:|---|---|
@@ -162,45 +246,41 @@ Implementation-specific build and execution commands are maintained in `Project/
 | 2520090104 | Tejaswin Amara | To be recorded |
 | 2520090140 | U. Vinay Sampath | To be recorded |
 
-This table should be updated as responsibilities are formally assigned and completed. Contributions must remain attributable to the corresponding GitHub account.
+# GitHub & Project Governance
 
-## GitHub & Project Governance
-
-- Repository URL: `https://github.com/tejaswin-amara/OSSP_2520090104`
 - Repository created: **YES**
-- Every team member must commit using their own GitHub account.
-- Contributions must be progressive through the project phases.
-- Maintain at least one meaningful team commit per week during active project work.
-- Tag completed phase deliverables, for example `review-1`, `review-2`, and `final`.
-- Grant repository access to the supervisor and Course Coordinator.
-- Keep the repository accessible until final project evaluation is completed.
-- Do not commit passwords, credentials, API keys, private keys, licensed datasets without redistribution permission, or confidential institutional data.
+- Every team member commits under their own GitHub account.
+- Contributions must be progressive through each project phase.
+- Minimum one meaningful team commit per week during active project work.
+- Each completed phase deliverable must be tagged, e.g. `review-1`, `review-2`, `final`.
+- Supervisor and Course Coordinator must be granted repository access.
+- Repository remains accessible until final project evaluation.
+- Never commit credentials, API keys, private keys, licensed/restricted datasets without permission, or confidential institutional data.
 - The repository URL recorded in Section D must not be renamed or transferred without written consent from the Course Coordinator.
 
-## Phase Status
+# Phase Status
 
-**Current Phase: Project Problem Statement / Repository Baseline**
+**Current Phase: Project Problem Statement / Course Alignment Baseline**
 
 | Deliverable | Status |
 |---|---|
-| Project title and scope | ✅ Defined |
-| Team member details | ✅ Recorded from submission document |
-| Abstract | ✅ Documented |
-| Problem statement | ✅ Documented |
-| Objectives | ✅ Documented |
-| Proposed methodology | ✅ Documented |
-| OS concepts and Linux APIs | ✅ Documented |
-| Tools and platforms | ✅ Documented |
-| Expected outcomes | ✅ Documented |
+| Official course information | ✅ Documented |
+| CO1–CO6 | ✅ Documented |
+| M1–M6 syllabus | ✅ Documented |
+| Shellforge anchor-project reference | ✅ Documented |
+| Submitted project title/scope | ✅ Documented |
+| Abstract/problem statement/objectives | ✅ Documented |
+| Methodology and OS APIs | ✅ Documented |
 | Required project folders | ✅ Established under `Project/` |
-| Individual responsibilities | ⏳ To be recorded |
-| Supervisor/faculty details | ⏳ To be recorded |
-| Supervisor/Course Coordinator access | ⏳ To be granted |
-| Weekly contribution history | ⏳ Ongoing |
-| Review tags | ⏳ To be created for completed reviews |
+| Individual responsibilities | ⏳ To be assigned by team |
+| Team No. | ⏳ Blank in supplied form |
+| Supervisor/faculty | ⏳ Blank in supplied form |
+| Supervisor/Course Coordinator access | ⏳ Administrative action required |
+| Weekly contributions | ⏳ Ongoing |
+| Review tags | ⏳ Create when deliverables are actually complete |
 | Final evaluation | ⏳ Pending |
 
-## Faculty & Approval
+# Faculty & Approval
 
 | Field | Status |
 |---|---|
@@ -209,27 +289,38 @@ This table should be updated as responsibilities are formally assigned and compl
 | Remarks | To be recorded |
 | Project Approved | To be recorded |
 | Approval Date | To be recorded |
-| Faculty Signature | To be obtained |
 
-## Data & Security Policy
+# Data & Security Policy
 
-Never commit:
+Never commit passwords, authentication tokens, API keys, private keys, `.env` files, restricted/licensed datasets without redistribution permission, confidential institutional information, local IDE configuration, build caches, or unnecessary generated files.
 
-- Passwords, authentication tokens, API keys, private keys, or `.env` files.
-- Licensed/restricted datasets without explicit redistribution permission.
-- Confidential institutional, student, staff, or assessment information.
-- Local IDE configuration, build caches, or unnecessary generated files.
+For external or restricted datasets, document the authoritative source, license/usage terms, version/retrieval date, schema, and reproduction/access procedure in `Project/data/README.md`.
 
-For externally hosted or restricted datasets, document the authoritative source, license/usage terms, version or retrieval date, schema, and reproduction/access procedure in `Project/data/README.md`.
-
-## Academic Integrity
+# Academic Integrity
 
 Git history forms part of the project's contribution evidence. Team members must make genuine, meaningful contributions from their own GitHub accounts. Do not manufacture commits, rewrite history to conceal authorship, or use a single account for bulk uploads.
 
+# Reference Books
+
+1. **Operating System Concepts** — Abraham Silberschatz, Peter Baer Galvin & Greg Gagne, Wiley, 2018, 10th Ed.
+2. **Operating Systems: Three Easy Pieces** — Remzi H. Arpaci-Dusseau & Andrea C. Arpaci-Dusseau, 2023.
+3. **Modern Operating Systems** — Andrew S. Tanenbaum & Herbert Bos, Pearson, 2022, 5th Ed.
+4. **Advanced Programming in the UNIX Environment** — W. Richard Stevens & Stephen A. Rago, Addison-Wesley, 2013, 3rd Ed.
+5. **The Linux Programming Interface** — Michael Kerrisk, No Starch Press, 2010.
+6. **Computer Systems: A Programmer's Perspective** — Randal E. Bryant & David R. O'Hallaron, Pearson, 2015, 3rd Ed.
+
+# Recommended Online Resources
+
+1. [NPTEL — Introduction to Operating Systems](https://nptel.ac.in/courses/106106144)
+2. [NPTEL — Operating System Fundamentals](https://nptel.ac.in/courses/106105214)
+3. [Coursera — Nand to Tetris Part II](https://www.coursera.org/learn/nand2tetris2)
+4. [MIT 6.S081 — Operating System Engineering](https://pdos.csail.mit.edu/6.S081/)
+5. [OSTEP — Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
+
 ---
 
-**Project:** Linux Dynamic Memory Allocation and Memory Monitoring System  
 **Course:** Operating Systems and Systems Programming (25CS2104E)  
 **Term:** 2026–27, Term-I  
 **Section:** 10  
+**Project:** Linux Dynamic Memory Allocation and Memory Monitoring System  
 **Team:** To be recorded
