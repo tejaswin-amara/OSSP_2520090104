@@ -1,341 +1,300 @@
-# Linux Dynamic Memory Allocation and Memory Monitoring System
+# 🧠 Linux Dynamic Memory Allocation & Memory Monitoring System
 
-> **Operating Systems and Systems Programming (25CS2104E)** · PBL · Section 10 · **Team 12**
+**A Linux systems-programming project for transparent memory allocation, heap behavior, and process-memory monitoring.**
 
-**Institution:** Koneru Lakshmaiah Education Foundation (Deemed to be University)  
-**Faculty / Supervisor:** Manthena Raghupathi  
-**Academic Year:** 2026–27 · Term-I  
+> **Operating Systems and Systems Programming · 25CS2104E · Section 10 · Team 12**
+
+| | |
+|---|---|
+| 🏫 Institution | Koneru Lakshmaiah Education Foundation (Deemed to be University) |
+| 👨‍🏫 Faculty | **Manthena Raghupathi** |
+| 📅 Academic Year | **2026–27 · Term-I** |
+| 👥 Team | **12** |
+| 🐧 Platform | Linux / Ubuntu |
+| 💻 Language | C / C++ |
 
 ---
 
-## 📌 Project Overview
+## ✨ What This Project Does
 
-The **Linux Dynamic Memory Allocation and Memory Monitoring System** is a systems-programming project developed in C/C++ for Linux/Ubuntu. It combines a custom dynamic memory allocator with a real-time monitoring utility to make memory allocation, deallocation, heap growth, memory consumption, and fragmentation more transparent.
+This project builds an **educational custom memory-management and monitoring stack for Linux**. It combines a custom allocator, low-level memory acquisition, allocation logging, and process-memory observation.
 
-The project explores how user-space memory management interacts with Linux memory primitives such as `brk()`, `sbrk()`, `mmap()`, the `/proc` filesystem, POSIX threads, mutexes, and signal handling.
+### Core capabilities
+
+- Custom `malloc`, `calloc`, `realloc`, and `free` behavior
+- `sbrk()` / `brk()` and `mmap()` based memory acquisition
+- Free-list management with first-fit/best-fit policies
+- Block splitting and coalescing
+- Timestamped allocation/deallocation logging
+- `/proc/<pid>/status` and `/proc/<pid>/maps` monitoring
+- `getrusage()` measurements
+- POSIX mutex-based synchronization
+- Validation with GDB, Valgrind, AddressSanitizer and strace where compatible
+
+> **Academic scope:** this is an educational allocator and observability project, not a replacement for the production Linux/glibc allocator.
+
+---
 
 ## 👥 Team 12
 
-| Roll Number | Student | Responsibility |
-|---:|---|---|
-| **2520030456** | **T. Arun** | Core memory allocator using `malloc()`/`free()` and `brk()`/`sbrk()`; allocation/deallocation event logging with size, address, and timestamp. |
-| **2520090104** | **Tejaswin Amara** | Memory monitoring using `/proc/[pid]/status`, `/proc/[pid]/maps`, and `getrusage()`; periodic sampling and reporting. |
-| **2520090140** | **U. Vinay Sampath** | Integration and testing; Valgrind-based leak validation; test cases, documentation, and project report. |
+| Roll No. | Member | Primary Contribution |
+|---|---|---|
+| **2520030456** | **T. Arun** | Core allocator using `malloc()`/`free()` and `brk()`/`sbrk()`; allocation/deallocation event logging. |
+| **2520090104** | **Tejaswin Amara** | `/proc/[pid]/status`, `/proc/[pid]/maps`, `getrusage()`, periodic sampling and reporting. |
+| **2520090140** | **U. Vinay Sampath** | Integration, testing, Valgrind validation, test cases, documentation and final report. |
 
-> Each member must make genuine commits from their own GitHub account so individual contribution remains verifiable.
+**Supervisor:** Manthena Raghupathi
+
+> Contribution evidence is maintained through authentic GitHub history. Each member must commit their own work from their own account.
 
 ---
 
-## 🎯 Abstract
+## 🧩 Architecture
 
-Dynamic memory management directly affects application performance, reliability, and system stability. Standard allocators generally hide allocation behavior, making fragmentation, memory growth, and leaks difficult to inspect.
+```text
+                         ┌───────────────────────┐
+                         │   Test / Demo Program  │
+                         └───────────┬───────────┘
+                                     │
+                       malloc / calloc / realloc / free
+                                     │
+                                     ▼
+                 ┌─────────────────────────────────────┐
+                 │         CUSTOM ALLOCATOR            │
+                 │                                     │
+                 │ Metadata · Free List · Fit Policy   │
+                 │ Split · Coalesce · Synchronization  │
+                 └──────────────┬──────────┬───────────┘
+                                │          │
+                           sbrk/brk      mmap/munmap
+                                │          │
+                                └────┬─────┘
+                                     ▼
+                            Linux Process Memory
+                                     ▲
+                                     │
+                 ┌───────────────────┴──────────────────┐
+                 │            MEMORY MONITOR             │
+                 │ /proc/<pid>/status · /proc/<pid>/maps│
+                 │ /proc/meminfo · getrusage()           │
+                 │ Periodic sampling · reporting         │
+                 └───────────────────┬──────────────────┘
+                                     │
+                                     ▼
+                         ┌────────────────────────┐
+                         │ Logs · Results · Charts│
+                         └────────────────────────┘
+```
 
-This project develops a Linux-based **custom dynamic memory allocation and memory monitoring system**. The allocator provides `malloc`, `calloc`, `realloc`, and `free` functionality using low-level mechanisms including `sbrk()` and `mmap()`. A linked-list free-list manages reusable blocks using allocation strategies such as first-fit and best-fit, with block coalescing to reduce fragmentation.
-
-A companion monitoring utility periodically reads `/proc/[pid]/status` and `/proc/[pid]/maps` and uses `getrusage()` to observe process memory behavior, including `VmSize`, `VmRSS`, and heap-growth information. Allocation events are logged for later analysis and visualization.
-
-The implementation also considers multi-threaded safety using POSIX mutexes and uses signal handling to report abnormal memory-access events such as `SIGSEGV`.
-
-## ❗ Problem Statement
-
-Modern applications frequently depend on default memory allocators without direct visibility into allocation patterns, fragmentation, reclamation, or memory growth. This makes memory leaks and inefficient allocation strategies difficult to understand and diagnose.
-
-The project addresses this problem by providing a transparent custom allocation mechanism and a real-time monitoring utility for Linux C/C++ applications.
+---
 
 ## 🎯 Objectives
 
-1. Implement custom `malloc()`, `calloc()`, `realloc()`, and `free()` functionality in C.
-2. Use Linux `brk()`/`sbrk()` and `mmap()` mechanisms for memory acquisition.
-3. Maintain a free list with first-fit/best-fit allocation and block coalescing.
-4. Monitor process memory through `/proc/[pid]/status` and `/proc/[pid]/maps`.
-5. Use `getrusage()` for process resource and memory measurements.
-6. Record allocation/deallocation events with timestamps, addresses, and sizes.
-7. Provide thread-safe allocator operations using POSIX mutexes.
-8. Detect and report abnormal memory-access conditions using signal handling.
-9. Validate behavior with controlled test programs, GDB, and Valgrind.
-10. Produce reproducible logs, measurements, visualizations, and reports.
+1. Implement custom `malloc()`, `calloc()`, `realloc()` and `free()` behavior in C.
+2. Demonstrate Linux memory acquisition with `brk()`/`sbrk()` and `mmap()`.
+3. Maintain reusable blocks through free-list metadata.
+4. Support or compare first-fit and best-fit allocation policies.
+5. Reduce fragmentation through safe splitting and coalescing.
+6. Monitor process memory through `/proc` and `getrusage()`.
+7. Produce structured allocation/deallocation logs.
+8. Exercise thread-safe allocator state with POSIX mutexes.
+9. Validate behavior with automated tests and diagnostic tooling.
+10. Produce reproducible academic evidence, benchmarks and reports.
 
 ---
 
-## 🏗️ System Architecture
+## 🧠 OS Concepts Demonstrated
 
-```text
-                    ┌──────────────────────────┐
-                    │      Test Application    │
-                    │       C / C++ Program     │
-                    └────────────┬─────────────┘
-                                 │
-                    malloc/calloc/realloc/free
-                                 │
-                                 ▼
-             ┌────────────────────────────────────┐
-             │       Custom Memory Allocator      │
-             │                                    │
-             │  • Block metadata                  │
-             │  • Free list                       │
-             │  • First-fit / Best-fit             │
-             │  • Block splitting / coalescing    │
-             │  • Thread synchronization           │
-             └──────────────┬─────────────────────┘
-                            │
-                 ┌──────────┴──────────┐
-                 ▼                     ▼
-             brk/sbrk()             mmap()
-                 │                     │
-                 └──────────┬──────────┘
-                            ▼
-                     Linux Process Memory
-
-                            ▲
-                            │
-                ┌───────────┴────────────┐
-                │    Memory Monitor      │
-                │                        │
-                │ /proc/<pid>/status     │
-                │ /proc/<pid>/maps       │
-                │ getrusage()            │
-                │ periodic sampling      │
-                └───────────┬────────────┘
-                            │
-                            ▼
-                  Logs / Results / Reports
-```
-
-## 🔧 Core Linux Concepts and APIs
-
-| API / Concept | Role |
+| Concept | Demonstrated Through |
 |---|---|
-| `malloc()` | Dynamic allocation interface implemented by the project |
-| `calloc()` | Zero-initialized dynamic allocation |
-| `realloc()` | Resizing an allocated block |
-| `free()` | Returning an allocated block to the allocator |
-| `brk()` / `sbrk()` | Process heap expansion/reduction mechanism |
-| `mmap()` / `munmap()` | Memory-mapped allocation and release |
-| `/proc/[pid]/status` | Process memory statistics such as `VmSize` and `VmRSS` |
-| `/proc/[pid]/maps` | Process virtual-memory region layout |
-| `/proc/meminfo` | System-wide memory statistics |
-| `getrusage()` | Process resource and memory-usage information |
-| `pthread_mutex_t` | Synchronization of allocator operations |
-| `SIGSEGV` | Abnormal/invalid memory-access signal |
+| Virtual memory | Process address space and `/proc/<pid>/maps` |
+| Dynamic allocation | Custom allocation primitives |
+| Heap management | `brk()` / `sbrk()` |
+| Memory mapping | `mmap()` / `munmap()` |
+| Process monitoring | `/proc/<pid>/status` |
+| Resource accounting | `getrusage()` |
+| Fragmentation | Free-list, splitting and coalescing |
+| Concurrency | POSIX threads and mutexes |
+| Fault analysis | GDB, Valgrind, ASan and controlled signal handling |
+| System-call tracing | `strace` |
 
 ---
 
-## 📂 Project Structure
+## 📁 Repository Map
 
 ```text
-Project/
-├── src/
-│   ├── allocator/       # Custom allocation implementation
-│   ├── monitor/         # /proc and getrusage monitoring
-│   ├── tests/           # Functional and stress tests
-│   └── common/          # Shared headers/utilities
-├── docs/
-│   ├── architecture/   # System architecture and design
-│   ├── experiments/    # Experiment methodology
-│   └── api/             # Linux API notes
-├── data/
-│   └── README.md        # Data provenance / permitted datasets
-├── results/
-│   ├── logs/            # Allocation and monitoring logs
-│   ├── benchmarks/     # Performance measurements
-│   └── visualizations/ # Generated plots
-└── reports/
-    ├── reviews/         # Phase/review deliverables
-    └── final/           # Final report
+OSSP_2520090104/
+├── README.md                         # Course-level overview
+├── Practical/                        # Practical course material
+├── Skills/                           # Skills/course material
+│
+└── Project/
+    ├── README.md                     # Project guide
+    ├── src/                          # Implementation and tests
+    ├── docs/                         # Design and project documentation
+    ├── data/                         # Permitted inputs / source references
+    ├── results/                      # Logs, measurements and visualizations
+    └── reports/                      # Review and final academic reports
 ```
+
+### Documentation index
+
+| Document | Purpose |
+|---|---|
+| [Project Charter](docs/01-project-charter.md) | Scope, goals, risks and success criteria |
+| [Requirements](docs/02-requirements-specification.md) | Functional and non-functional requirements |
+| [Architecture](docs/03-system-architecture.md) | Components, interfaces and invariants |
+| [Linux API Reference](docs/04-api-system-call-reference.md) | System calls and APIs used |
+| [Testing Plan](docs/05-testing-validation-plan.md) | Test strategy and acceptance criteria |
+| [Developer Guide](docs/06-user-and-developer-guide.md) | Build/debug/development workflow |
+| [Phase Plan](docs/07-phase-plan.md) | Milestones and review tags |
+| [Benchmark Template](docs/08-results-and-benchmarking-template.md) | Reproducible experiment format |
+| [Demo Script](docs/09-demo-script.md) | Final demonstration flow |
+| [Troubleshooting](docs/10-troubleshooting.md) | Common development problems |
+| [Data Governance](docs/11-data-governance.md) | Data and security policy |
+| [Final Report Outline](docs/12-final-report-outline.md) | Report structure |
 
 ---
 
-## 💻 Development Environment
+## 🛠️ Development Environment
 
-### Recommended platform
-
-- Ubuntu 24.04 LTS or compatible Linux distribution
-- GCC 13+
-- GNU Make
-- GDB
-- Valgrind
-- Git
-- Bash
-- Python 3 + `matplotlib` for visualization
-
-### Clone
+**Recommended:** Ubuntu 24.04 LTS or compatible Linux distribution, GCC 13+, GNU Make, GDB, Valgrind, Git and Bash. Python 3 + Matplotlib may be used for visualization.
 
 ```bash
-git clone https://github.com/tejaswin-amara/OSSP_2520090104.git
-cd OSSP_2520090104/Project
-```
-
-### Build
-
-Once the implementation is present, the project should provide a reproducible Make-based build:
-
-```bash
+cd Project
 make
-```
-
-### Run tests
-
-```bash
 make test
 ```
 
-### Debug with GDB
+### Debugging
 
 ```bash
 gdb ./build/<program>
-```
-
-### Check memory behavior with Valgrind
-
-```bash
 valgrind --leak-check=full --show-leak-kinds=all ./build/<program>
+strace -f -e trace=brk,mmap,munmap ./build/<program>
 ```
 
-### Trace Linux system calls
-
-```bash
-strace -f ./build/<program>
-```
-
-> Exact executable names and targets should be documented in this file when the implementation is finalized.
+> Executable names and Make targets must match the actual implementation. Do not leave unverified commands in the documentation.
 
 ---
 
-## 📊 Monitoring and Reporting
+## 📊 Monitoring Model
 
-The monitoring subsystem is intended to periodically capture:
+The monitor is designed to capture:
 
 - `VmSize`
 - `VmRSS`
-- Heap-region information from `/proc/[pid]/maps`
-- Observed heap growth
-- Allocation count
-- Deallocation count
-- Allocated bytes
-- Freed bytes
-- Active allocation count
-- Fragmentation indicators
-- Allocation/deallocation timestamps
+- heap mapping/address-range information
+- observed heap growth
+- allocation/deallocation counts
+- active allocation count
+- allocated/freed bytes
+- fragmentation indicators
+- timestamps and process identity
 
-Raw observations should be stored under `results/` and visualized using Python/Matplotlib or gnuplot.
+Measurements should be stored with environment and workload metadata so experiments remain reproducible.
 
 ---
 
-## 🧪 Testing Strategy
+## 🧪 Validation Strategy
 
-Testing will cover:
+### Functional
 
-1. Basic allocation and deallocation.
-2. Zero-initialized allocation using `calloc()`.
-3. Block resizing with `realloc()`.
-4. Reuse of freed blocks.
-5. Free-list splitting and coalescing.
-6. First-fit versus best-fit behavior.
-7. Large allocations through `mmap()`.
-8. Repeated allocation/deallocation stress tests.
-9. Multi-threaded allocation safety.
-10. Memory-leak detection with Valgrind.
-11. Invalid-memory-access handling.
-12. Monitoring accuracy against `/proc` and `getrusage()`.
+- Small, medium and large allocations
+- `calloc()` zero initialization
+- `realloc()` data preservation
+- Free-block reuse
+- Splitting and coalescing
+- First-fit/best-fit behavior
+- Large `mmap()` allocations
 
----
+### Robustness
 
-## 📈 Expected Results
+- Zero-size requests
+- `calloc()` integer-overflow checks
+- Allocation failure
+- Controlled metadata-corruption tests
+- Repeated allocation/free stress
+- Multi-threaded workloads
 
-The completed system should demonstrate:
+### Tool-assisted
 
-- Correct dynamic allocation and deallocation.
-- Reduced unnecessary fragmentation through free-list management.
-- Correct block reuse and coalescing.
-- Observable heap growth and process memory behavior.
-- Reliable allocation/deallocation logging.
-- Thread-safe allocator behavior.
-- Reproducible memory-monitoring measurements.
-- Evidence of memory leaks and their remediation.
-- Benchmark comparisons between allocation strategies where applicable.
+| Tool | Purpose |
+|---|---|
+| GDB | State and crash inspection |
+| Valgrind | Leak and invalid-access analysis |
+| AddressSanitizer | Compiler-assisted memory diagnostics where compatible |
+| strace | Observation of memory-related system calls |
 
 ---
 
-## 🗓️ Development Phases
+## 📈 Results Policy
 
-| Phase | Deliverable | Status |
-|---|---|---|
-| Phase 1 | Problem statement, scope, architecture | 🟢 Baseline completed |
-| Phase 2 | Allocator foundation and metadata | 🟡 In development |
-| Phase 3 | Allocation strategies and memory acquisition | ⏳ Pending |
-| Phase 4 | Monitoring and logging subsystem | ⏳ Pending |
-| Phase 5 | Integration, concurrency and safety | ⏳ Pending |
-| Phase 6 | Testing, benchmarking and visualization | ⏳ Pending |
-| Phase 7 | Documentation, final report and demonstration | ⏳ Pending |
+**Results are measured, not invented.** Every benchmark should record the commit SHA, OS/kernel, compiler, build flags, allocator policy, workload, thread count, sampling interval, raw measurements and interpretation/limitations.
+
+Use the [benchmarking template](docs/08-results-and-benchmarking-template.md) and store evidence in `results/`.
 
 ---
 
-## 👨‍🏫 Course Alignment
+## 🗺️ Project Status
 
-The project primarily demonstrates **CO4 — Analyze** through Linux virtual memory, process address spaces, `malloc/free`, `brk/sbrk`, `mmap`, page-level memory behavior, and `/proc` inspection.
-
-It also supports **CO6 — Apply** through POSIX threads and mutex-based synchronization, while the logging and Linux systems-programming workflow reinforces the broader course outcomes.
-
-### Relevant modules
-
-- **M1 — The OS as a Service Layer:** system calls and Linux user/kernel interaction.
-- **M4 — Memory Management:** virtual memory, heap, `malloc/free`, `brk/sbrk`, `mmap`, `/proc`, memory bugs.
-- **M6 — Concurrency Primitives:** threads, mutexes, races and synchronization.
-
----
-
-## 🔐 Security and Data Policy
-
-Do **not** commit:
-
-- Passwords or credentials
-- API keys or authentication tokens
-- Private keys or certificates
-- `.env` files containing secrets
-- Confidential institutional data
-- Restricted or licensed datasets without redistribution permission
-- Local machine dumps or unnecessary generated files
-
-External data sources must be documented in `data/README.md` with source, license, version/date, and reproduction instructions.
+| Area | Status |
+|---|---|
+| Project definition | 🟢 Complete |
+| Requirements | 🟢 Complete |
+| Architecture | 🟢 Documented |
+| Documentation framework | 🟢 Complete |
+| Allocator implementation | 🟡 Development |
+| Monitoring implementation | 🟡 Development |
+| Integration | ⚪ Pending |
+| Automated validation | ⚪ Pending |
+| Benchmarking | ⚪ Pending |
+| Final report | ⚪ Pending |
+| Final demonstration | ⚪ Pending |
 
 ---
 
-## 🌿 Git & Contribution Policy
+## 🎓 Course Alignment
 
-This is an academic team repository. Contribution evidence must remain authentic.
+The project strongly supports **CO4 — Analyze** through virtual memory, heap behavior, `brk()`/`sbrk()`, `mmap()`, `/proc` inspection and memory-error analysis.
 
-- Every team member commits using their own GitHub account.
-- Contributions are made progressively throughout the project.
-- At least one meaningful team commit should be made per active project week.
-- Each phase deliverable should receive an appropriate Git tag such as `review-1`, `review-2`, or `final`.
-- Avoid bulk uploading the entire project from one account.
-- Do not rewrite history to conceal contribution authorship.
+It also supports **CO6 — Apply** through POSIX threads and mutex synchronization, while reinforcing systems-programming practices from the wider course.
 
-The repository should remain accessible to the faculty/supervisor and Course Coordinator until final evaluation is complete.
+---
+
+## 🔐 Academic & Repository Governance
+
+- Every team member contributes through their own GitHub account.
+- Contributions are progressive; avoid single-member bulk uploads.
+- Make at least one meaningful team commit per active project week.
+- Tag completed phase deliverables, e.g. `review-1`, `review-2`, `final`.
+- Grant repository access to the supervisor and Course Coordinator.
+- Keep the repository accessible until final evaluation is complete.
+- Never commit credentials, API keys, private keys, confidential institutional data or unauthorized licensed datasets.
+- The recorded repository URL must not be renamed or transferred without written consent from the Course Coordinator.
 
 ---
 
 ## 📚 References
 
-- Abraham Silberschatz, Peter B. Galvin & Greg Gagne — *Operating System Concepts*.
-- Remzi H. Arpaci-Dusseau & Andrea C. Arpaci-Dusseau — *Operating Systems: Three Easy Pieces*.
-- W. Richard Stevens & Stephen A. Rago — *Advanced Programming in the UNIX Environment*.
-- Michael Kerrisk — *The Linux Programming Interface*.
-- Linux manual pages: `man 2 brk`, `man 2 mmap`, `man 2 getrusage`, `man 5 proc`, `man 7 pthreads`.
+- Silberschatz, Galvin & Gagne — *Operating System Concepts*.
+- Arpaci-Dusseau & Arpaci-Dusseau — *Operating Systems: Three Easy Pieces*.
+- Stevens & Rago — *Advanced Programming in the UNIX Environment*.
+- Kerrisk — *The Linux Programming Interface*.
+- Linux manual pages for `brk`, `mmap`, `getrusage`, `proc`, `pthread`, `sigaction` and related APIs.
 
 ---
 
-## 📜 Academic Information
+## 📌 Academic Record
 
-**Institution:** Koneru Lakshmaiah Education Foundation (Deemed to be University)  
+**Institution:** Koneru Lakshmaiah Education Foundation  
 **Course:** Operating Systems and Systems Programming (25CS2104E)  
 **Section:** 10  
 **Team:** 12  
 **Faculty:** Manthena Raghupathi  
-**Academic Year:** 2026–27  
+**Academic Year:** 2026–27 · Term-I  
 **Project:** Linux Dynamic Memory Allocation and Memory Monitoring System
 
 ---
 
-> **Status:** Project repository baseline established. Implementation, experiments, results, and final evaluation deliverables will be added progressively.
+> **Built for learning how Linux memory really works — from allocation metadata to the process address space.**
