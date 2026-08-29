@@ -1,0 +1,18 @@
+# Normalize text files across Windows/Linux/macOS","* text=auto eol=lf
+
+*.md text
+*.txt text
+*.c text
+*.h text
+*.cpp text
+*.hpp text
+*.sh text eol=lf
+*.yml text
+*.yaml text
+
+# PDFs and other binary artifacts
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
