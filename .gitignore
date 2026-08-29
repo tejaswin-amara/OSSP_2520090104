@@ -1,0 +1,40 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# IDE/editor state
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build/cache artifacts
+node_modules/
+target/
+build/
+out/
+__pycache__/
+*.class
+*.log
+
+# Temporary/generated files
+*.tmp
+*.temp
+coverage/
+
+# Local datasets and confidential exports
+*.csv
+*.xlsx
+*.xls
+*.db
+*.sqlite
+
+# Keep intentionally versioned small/reference data by explicit force-add only when permitted.
