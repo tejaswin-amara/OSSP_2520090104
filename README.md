@@ -16,7 +16,7 @@
 | Trimester | **T04** |
 | Document | Project Problem Statement Submission Form |
 | Section No. | **10** |
-| Team No. | To be recorded |
+| Team No. | **12** |
 | Project Title | **Linux Dynamic Memory Allocation and Memory Monitoring System** |
 | Supervisor / Faculty | To be recorded |
 
@@ -29,6 +29,14 @@
 | 2520090140 | U. Vinay Sampath | To be recorded |
 
 > Every team member must commit using their own GitHub account. Individual contribution is verified through Git history.
+
+## Individual Contribution
+
+| Roll Number | Student Name | Individual Responsibility |
+|---:|---|---|
+| 2520030456 | T. Arun | Designed and implemented the core memory allocation module using `malloc()`/`free()` and `brk()`/`sbrk()`; built the logging mechanism that records the size, address, and timestamp of every allocation/deallocation event. |
+| 2520090104 | Tejaswin Amara | Developed the memory monitoring component that reads `/proc/[pid]/status` and `/proc/[pid]/maps` and uses `getrusage()` to capture `VmSize`, `VmRSS`, and heap growth; implemented periodic sampling and reporting logic. |
+| 2520090140 | U. Vinay Sampath | Handled integration and testing of the allocator and monitoring modules, cross-validated memory leak detection using Valgrind, and prepared the test cases, documentation, and project report. |
 
 ---
 
@@ -159,7 +167,7 @@ The allocator manages process memory through `sbrk()` and `mmap()`, maintains li
 
 ### Memory Monitoring
 
-A companion utility periodically reads `/proc/[pid]/status` and `/proc/meminfo`, collecting process/system memory statistics, allocation patterns, and fragmentation indicators for logging and visualization.
+A companion utility periodically reads `/proc/[pid]/status` and `/proc/[pid]/maps`, and uses `getrusage()` to collect process memory metrics such as `VmSize`, `VmRSS`, and heap-growth observations for logging and reporting.
 
 ### Safety & Concurrency
 
@@ -170,9 +178,10 @@ POSIX threads and mutex locks provide thread-safe allocator operations. Signal h
 | Concept / API | Purpose |
 |---|---|
 | `malloc`, `calloc`, `realloc`, `free` | Custom dynamic allocation primitives |
-| `sbrk`, `brk` | Process heap management |
+| `brk`, `sbrk` | Process heap management |
 | `mmap`, `munmap` | Memory-mapped allocation/release |
-| `/proc/[pid]/status`, `/proc/meminfo` | Process/system memory statistics |
+| `/proc/[pid]/status`, `/proc/[pid]/maps`, `/proc/meminfo` | Process/system memory statistics and address-space inspection |
+| `getrusage()` | Process resource and memory-usage measurements |
 | POSIX `pthread` + mutexes | Thread-safe allocation |
 | `SIGSEGV` / signal handling | Abnormal memory-access detection |
 
@@ -238,14 +247,6 @@ cd OSSP_2520090104
 
 Build and execution instructions for each implementation should be maintained in `Project/docs/` and alongside the relevant source. Generated outputs belong in `Project/results/`.
 
-# Individual Contribution
-
-| Roll Number | Student Name | Individual Responsibility |
-|---:|---|---|
-| 2520030456 | T. Arun | To be recorded |
-| 2520090104 | Tejaswin Amara | To be recorded |
-| 2520090140 | U. Vinay Sampath | To be recorded |
-
 # GitHub & Project Governance
 
 - Repository created: **YES**
@@ -271,10 +272,10 @@ Build and execution instructions for each implementation should be maintained in
 | Submitted project title/scope | ✅ Documented |
 | Abstract/problem statement/objectives | ✅ Documented |
 | Methodology and OS APIs | ✅ Documented |
+| Team No. | ✅ Team 12 |
+| Individual responsibilities | ✅ Assigned |
 | Required project folders | ✅ Established under `Project/` |
-| Individual responsibilities | ⏳ To be assigned by team |
-| Team No. | ⏳ Blank in supplied form |
-| Supervisor/faculty | ⏳ Blank in supplied form |
+| Supervisor/faculty | ⏳ Not provided in source document |
 | Supervisor/Course Coordinator access | ⏳ Administrative action required |
 | Weekly contributions | ⏳ Ongoing |
 | Review tags | ⏳ Create when deliverables are actually complete |
@@ -323,4 +324,4 @@ Git history forms part of the project's contribution evidence. Team members must
 **Term:** 2026–27, Term-I  
 **Section:** 10  
 **Project:** Linux Dynamic Memory Allocation and Memory Monitoring System  
-**Team:** To be recorded
+**Team:** 12
