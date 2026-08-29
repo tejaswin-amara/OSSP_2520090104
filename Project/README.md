@@ -53,7 +53,7 @@ This project builds an **educational custom memory-management and monitoring sta
 
 ```text
                          ┌───────────────────────┐
-                         │   Test / Demo Program  │
+                         │  Test / Demo Program  │
                          └───────────┬───────────┘
                                      │
                        malloc / calloc / realloc / free
@@ -74,10 +74,10 @@ This project builds an **educational custom memory-management and monitoring sta
                                      ▲
                                      │
                  ┌───────────────────┴──────────────────┐
-                 │            MEMORY MONITOR             │
+                 │            MEMORY MONITOR            │
                  │ /proc/<pid>/status · /proc/<pid>/maps│
-                 │ /proc/meminfo · getrusage()           │
-                 │ Periodic sampling · reporting         │
+                 │ /proc/meminfo · getrusage()          │
+                 │ Periodic sampling · reporting        │
                  └───────────────────┬──────────────────┘
                                      │
                                      ▼
