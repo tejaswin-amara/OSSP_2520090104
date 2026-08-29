@@ -18,7 +18,7 @@
 | Section No. | **10** |
 | Team No. | **12** |
 | Project Title | **Linux Dynamic Memory Allocation and Memory Monitoring System** |
-| Supervisor / Faculty | To be recorded |
+| Supervisor / Faculty | **Manthena Raghupathi** |
 
 ## Team Members
 
@@ -274,8 +274,8 @@ Build and execution instructions for each implementation should be maintained in
 | Methodology and OS APIs | ✅ Documented |
 | Team No. | ✅ Team 12 |
 | Individual responsibilities | ✅ Assigned |
+| Faculty / Supervisor | ✅ Manthena Raghupathi |
 | Required project folders | ✅ Established under `Project/` |
-| Supervisor/faculty | ⏳ Not provided in source document |
 | Supervisor/Course Coordinator access | ⏳ Administrative action required |
 | Weekly contributions | ⏳ Ongoing |
 | Review tags | ⏳ Create when deliverables are actually complete |
@@ -285,7 +285,7 @@ Build and execution instructions for each implementation should be maintained in
 
 | Field | Status |
 |---|---|
-| Faculty Name | To be recorded |
+| Faculty Name | **Manthena Raghupathi** |
 | Faculty Signature | To be obtained |
 | Remarks | To be recorded |
 | Project Approved | To be recorded |
@@ -324,4 +324,5 @@ Git history forms part of the project's contribution evidence. Team members must
 **Term:** 2026–27, Term-I  
 **Section:** 10  
 **Project:** Linux Dynamic Memory Allocation and Memory Monitoring System  
-**Team:** 12
+**Team:** 12  
+**Faculty:** Manthena Raghupathi
